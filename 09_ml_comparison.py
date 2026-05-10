@@ -49,8 +49,8 @@ y_pred_rf = rf.predict(X)
 recall_rf = recall_score(y, y_pred_rf)
 
 acc_log = log_reg.score(X, y)
-y_pred_log = log_reg.predict(X)      # <--- NY RAD
-recall_log = recall_score(y, y_pred_log) # <--- NY RAD
+y_pred_log = log_reg.predict(X)      # <--- LAGT TILL FÖR RECALL
+recall_log = recall_score(y, y_pred_log) # <--- LAGT TILL FÖR RECALL
 # --------------------------------
 
 # 4. SKAPA SANNOLIKHETSTABELLEN (För de första 10 raderna)
@@ -64,7 +64,7 @@ results_table = pd.DataFrame({
 })
 
 # 5. SPARA TABELLEN SOM BILD
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 7))
 ax.axis('off')
 table = ax.table(cellText=results_table.values, colLabels=results_table.columns, 
                   loc='center', cellLoc='center')
@@ -72,21 +72,23 @@ table.auto_set_font_size(False)
 table.set_fontsize(11)
 table.scale(1.2, 2.0)
 
-plt.title(f"Sensor Fusion: Machine Learning Performance\n"
-          f"RF Accuracy: {acc_rf:.3f} | RF Recall: {recall_rf:.3f}", 
-          fontsize=14, fontweight='bold', pad=20)
+# UPPDATERAD TITEL FÖR ATT VISA ALLA VÄRDEN I BILDEN
+plt.title(f"ML Sensor Fusion Comparison\n\n"
+          f"Logistic Reg - Acc: {acc_log:.3f}, Recall: {recall_log:.3f}\n"
+          f"Random Forest - Acc: {acc_rf:.3f}, Recall: {recall_rf:.3f}", 
+          fontsize=12, fontweight='bold', pad=30)
 
-plt.savefig(os.path.join(fig_dir, "09_ml_probability_table.png"), bbox_inches='tight', dpi=300)
+plt.savefig(os.path.join(fig_dir, "09_ml_comparison_final.png"), bbox_inches='tight', dpi=300)
 
 # 6. TERMINAL OUTPUT
 print("\n" + "="*30)
 print("       ANALYS KLAR")
 print("="*30)
 print(f"Logistic Regression Acc:    {acc_log:.4f}")
-print(f"Logistic Regression Recall: {recall_log:.4f}") # <--- NY RAD
+print(f"Logistic Regression Recall: {recall_log:.4f}")
 print(f"Random Forest Accuracy:     {acc_rf:.4f}")
 print(f"Random Forest Recall:       {recall_rf:.4f}")
 print("-"*30)
 print("Sannolikhetstabell (urval):")
 print(results_table)
-print("\nGrafik sparad i 'figures/09_ml_probability_table.png'")
+print(f"\nNy bild sparad: figures/09_ml_comparison_final.png")
